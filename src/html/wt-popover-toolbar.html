@@ -1,0 +1,27 @@
+<div class="wt-popover-tb">
+    <span class="tb-left">
+        <span>
+	        {{wtStep}} of {{totalSteps}}
+        </span>
+        <span>
+	        <a ng-click="cancel()">
+		        Cancel
+	        </a>
+        </span>
+        <span ng-if="wtStep > 1">
+	        <a ng-click="restart()">
+		        Restart
+	        </a>
+        </span>
+        <span ng-if="wtStep > 1">
+	        <a ng-click="previous()">
+		        Back
+	        </a>
+        </span>
+    </span>
+    <span class="tb-right">
+        <button ng-click="next()" class="btn btn-primary btn-xs next-btn">
+	        {{ (totalSteps == wtStep) ? "Finish" : "Next" }}
+        </button>
+    </span>
+</div>

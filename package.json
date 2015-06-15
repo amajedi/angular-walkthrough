@@ -1,0 +1,43 @@
+{
+  "name": "angular-walkthrough",
+  "version": "1.0.0",
+  "description": "An AngularJS directive for easily creating website walkthroughs",
+  "keywords": [
+    "angularjs",
+    "directive",
+    "angular",
+    "module",
+    "walkthrough",
+    "tour"
+  ],
+  "homepage": "https://github.com/amajedi/angular-walkthrough",
+  "bugs": "https://github.com/amajedi/angular-walkthrough/issues",
+  "author": {
+    "name": "Amir Majedi",
+    "email": "",
+    "url": "https://github.com/amajedi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amajedi/angular-walkthrough.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "~0.5.1",
+    "grunt-contrib-cssmin": "~0.12.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-html2js": "^0.3.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}

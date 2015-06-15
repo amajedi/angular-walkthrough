@@ -1,0 +1,40 @@
+{
+  "name": "angular-walkthrough",
+  "version": "1.0.0",
+  "description": "An AngularJS directive for easily creating website walkthroughs",
+  "keywords": [
+    "angularjs",
+    "directive",
+    "angular",
+    "module",
+    "walkthrough",
+    "tour"
+  ],
+  "homepage": "https://github.com/amajedi/angular-walkthrough",
+  "bugs": "https://github.com/amajedi/angular-walkthrough/issues",
+  "author": {
+    "name": "Amir Majedi",
+    "email": "",
+    "url": "https://github.com/amajedi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amajedi/angular-walkthrough.git"
+  },
+  "main": "./dist/angular-walkthrough-tpls.min.js",
+  "ignore": [
+    ".*",
+    "node_modules",
+    "bower_components",
+    "demo*",
+    "src*",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "bootstrap": "~3.3.4"
+  },
+  "devDependencies": {},
+  "license": "MIT"
+}

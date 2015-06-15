@@ -1,5 +1,5 @@
 // TODOS:
-// create github io
+// create github io (demo page)
 // split apart into separate files
 // create grunt task to concat/minify
 // create/register bower package
@@ -29,32 +29,32 @@
     angular.module('WalkThroughModule')
     .run(['$templateCache', function ($templateCache) {
         $templateCache.put('wt-popover-toolbar.html',
-        '<div class="wt-popover-tb">'                                   +
-	        '<span class="tb-left">'                                    +
-		        '<span>'                                                +
-			        '{{wtStep}} of {{totalSteps}}'                      +
-		        '</span>'                                               +
-		        '<span>'                                                +
-			        '<a ng-click="cancel()">'                           +
-				        'Cancel'                                        +
-			        '</a>'                                              +
-		        '</span>'                                               +
-		        '<span>'                                                +
-			        '<a ng-click="restart()" ng-show="wtStep > 1">'     +
-				        'Restart'                                       +
-			        '</a>'                                              +
-		        '</span>'                                               +
-		        '<span>'                                                +
-			        '<a ng-click="previous()" ng-show="wtStep > 1">'    +
-				        'Back'                                          +
-			        '</a>'                                              +
-		        '</span>'                                               +
-	        '</span>'                                                   +
-	        '<span class="tb-right">'                                   +
-		        '<a ng-click="next()" class="next-btn">'                +
-			        '{{ (totalSteps == wtStep) ? "Finish" : "Next" }}'  +
-		        '</a>'                                                  +
-	        '</span>'                                                   +
+        '<div class="wt-popover-tb">' +
+	        '<span class="tb-left">' +
+		        '<span>' +
+			        '{{wtStep}} of {{totalSteps}}' +
+		        '</span>' +
+		        '<span>' +
+			        '<a ng-click="cancel()">' +
+				        'Cancel' +
+			        '</a>' +
+		        '</span>' +
+		        '<span>' +
+			        '<a ng-click="restart()" ng-show="wtStep > 1">' +
+				        'Restart' +
+			        '</a>' +
+		        '</span>' +
+		        '<span>' +
+			        '<a ng-click="previous()" ng-show="wtStep > 1">' +
+				        'Back' +
+			        '</a>' +
+		        '</span>' +
+	        '</span>' +
+	        '<span class="tb-right">' +
+		        '<a ng-click="next()" class="next-btn">' +
+			        '{{ (totalSteps == wtStep) ? "Finish" : "Next" }}' +
+		        '</a>' +
+	        '</span>' +
 	    '</div>');
     }]);
 
