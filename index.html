@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
-    <link rel="stylesheet" href="stylesheets/angular-walkthrough.min.css">
+    <!-- <link rel="stylesheet" href="stylesheets/angular-walkthrough.min.css"> -->
+    <link rel="stylesheet" href="../../dist/angular-walkthrough.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +34,7 @@
           Start Demo
         </button>
 
-        <div wt-step="3" wt-position="right">
+        <div wt-step="4" wt-position="right">
         <wt-step-content>
           Thanks, to learn more or contribute to the project, check out the <a href="https://github.com/amajedi/angular-walkthrough" target="_blank">GitHub</a>!
         </wt-step-content>
@@ -93,7 +94,10 @@
 
 <p>Add the "walkthrough" directive to parent element containing all steps, this is usually the &lt;body> element. This is where the backdrop will be placed.</p>
 
-<p>Additionally, functions are exposed to programmatically perform actions such as starting/stopping the walkthrough, moving to the next/previous step, as well as checking to see if a walkthrough step is currently active. You can expose these functions onto your scope by the wtStart, wtCancel, wtNext, wtPrev, and wtActive attribute directives.</p>
+<p>Additionally, functions are exposed to programmatically perform actions such as starting/stopping the walkthrough, moving to the next/previous step, as well as checking to see if a walkthrough step is currently active. You can expose these functions onto your scope by the wtStart, wtCancel, wtNext, wtPrev, and wtActive attributes. wtCancel returns a promise which resolves when the tour is cancelled.</p>
+
+<p>If you need to run some code right before the user clicks "Next" or "Finish" on a step, provide a callback function to the wtOnNext attribute.</p>
+<p>If you need to change the text of the button on the step (defaults to "Next" or "Finish"), wtBtnText is available.</p>
 
 <p>To create a step, simply add the wtStep directive to any target element specifying the step number as the value. To have multiple walkthroughs, name your walkthrough using the wtGroup directive. You can start a specific walkthrough by passing the name to the start function. To specify HTML content to go inside the popover, add the wtStepContent directive as a child of wtStep and add the content in there. If you don't want to mess with that, you can also specify text content by using the wtText directive like so: </p>
 
@@ -116,7 +120,11 @@
 <h3>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>Having trouble? Check out the documentation at <a href="https://github.com/amajedi/angular-walkthrough">https://github.com/amajedi/angular-walkthrough</a> or contact me <a href="mailto:amajedi@gmail.com">amajedi@gmail.com</a> and I'll help you out.</p>
+<p wt-step="3" wt-position="left">
+  <wt-step-content>
+    Auto-scrolling is also supported when the target element is out of view.
+  </wt-step-content>
+  Having trouble? Check out the documentation at <a href="https://github.com/amajedi/angular-walkthrough">https://github.com/amajedi/angular-walkthrough</a> or contact me <a href="mailto:amajedi@gmail.com">amajedi@gmail.com</a> and I'll help you out.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/amajedi">amajedi</a></p>
@@ -127,10 +135,10 @@
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-    <script src="javascripts/angular-walkthrough-tpls.min.js"></script>
+    <!-- <script src="javascripts/angular-walkthrough-tpls.min.js"></script> -->
+    <script src="../../dist/angular-walkthrough-tpls.js"></script>
     <script type="text/javascript">
       var app = angular.module('demo', ['angular-walkthrough']);
-
       app.controller('RootController', ['$scope', function ($scope) {
         console.log("RootController Running...");
       }]);
