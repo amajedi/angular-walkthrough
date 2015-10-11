@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-walkthrough')
-.controller('WalkThroughController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+.controller('WalkThroughController', ['$scope', '$rootScope', '$q', function ($scope, $rootScope, $q) {
 
     var self = this;
     self.activeStep = null;
@@ -16,22 +16,21 @@ angular.module('angular-walkthrough')
     self.next = function () { self._showNextStep(); }
     self.prev = function () { self._showPreviousStep(); }
     self.cancel = function () {
+        var deferred = $q.defer();
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
                 self.activeStep = undefined;
-                $rootScope.$emit('wt:finish');
+                deferred.resolve();
             });
         }
+        return deferred.promise;
     }
     self.active = function () {
         return (self.activeStep ? true : false);
     }
 
     self._registerStep = function (step) {
-        if (self.registeredSteps[step.group] && self.registeredSteps[step.group][step.step]) {
-            console.log('Step Number ' + step.step + ' has already been registered for group ' + step.group + ', you can\'t have two steps in the same group with the same step number.');
-        }
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
     }

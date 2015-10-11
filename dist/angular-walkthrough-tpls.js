@@ -28,7 +28,7 @@ angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function($t
     "    </span>\n" +
     "    <span class=\"tb-right\">\n" +
     "        <button ng-click=\"next()\" class=\"btn btn-primary btn-xs next-btn\">\n" +
-    "	        {{ (totalSteps == wtStep) ? \"Finish\" : \"Next\" }}\n" +
+    "	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? \"Finish\" : \"Next\") }}\n" +
     "        </button>\n" +
     "    </span>\n" +
     "</div>");
@@ -83,7 +83,9 @@ angular.module('angular-walkthrough')
         scope: {
             wtText: '@',
             wtPosition: '@',
-            wtGroup: '@'
+            wtGroup: '@',
+            wtBtnText: '@',
+            wtOnNext: '&'
         },
         controller: 'StepController',
         link: function (scope, element, attrs, ctrls) {
@@ -97,7 +99,10 @@ angular.module('angular-walkthrough')
             } else {
                 // Popover template calls into these
                 scope.cancel = WalkThroughController.cancel;
-                scope.next = WalkThroughController.next;
+                scope.next = function () {
+                    if (scope.wtOnNext) scope.wtOnNext();
+                    WalkThroughController.next();
+                }
                 scope.restart = WalkThroughController.start;
                 scope.previous = WalkThroughController.prev;
 
@@ -123,21 +128,6 @@ angular.module('angular-walkthrough')
                     angular.element(e).addClass('hide');
                 }
 
-                element.popover({
-                    html: true,
-                    trigger: 'manual',
-                    container: 'body',
-                    template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content"></div></div>',
-                    viewport: {
-                        selector: 'body',
-                        padding: 2
-                    },
-                    placement: (scope.wtPosition ? scope.wtPosition : 'auto'),
-                    content: function () {
-                        return StepController._contentElement;
-                    }
-                });
-
                 // we need to register the step with the walkthrough controller
                 var originalZIndex, originalPosition;
                 WalkThroughController._registerStep({
@@ -145,6 +135,22 @@ angular.module('angular-walkthrough')
                     group: scope.wtGroup || 'default',
                     show: function () {
                         var deferred = $q.defer();
+
+                        element.popover({
+                            html: true,
+                            trigger: 'manual',
+                            container: 'body',
+                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content"></div></div>',
+                            viewport: {
+                                selector: 'body',
+                                padding: 2
+                            },
+                            placement: (scope.wtPosition ? scope.wtPosition : 'auto'),
+                            content: function () {
+                                return StepController._contentElement;
+                            }
+                        });
+
                         element.on('shown.bs.popover', function () {
                             deferred.resolve();
                         });
@@ -200,6 +206,7 @@ angular.module('angular-walkthrough')
                     hide: function () {
                         var deferred = $q.defer();
                         element.on('hidden.bs.popover', function () {
+                            element.popover('destroy');
                             deferred.resolve();
                         });
 
@@ -230,7 +237,7 @@ angular.module('angular-walkthrough')
     }
 }]);
 angular.module('angular-walkthrough')
-.controller('WalkThroughController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+.controller('WalkThroughController', ['$scope', '$rootScope', '$q', function ($scope, $rootScope, $q) {
 
     var self = this;
     self.activeStep = null;
@@ -245,22 +252,21 @@ angular.module('angular-walkthrough')
     self.next = function () { self._showNextStep(); }
     self.prev = function () { self._showPreviousStep(); }
     self.cancel = function () {
+        var deferred = $q.defer();
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
                 self.activeStep = undefined;
-                $rootScope.$emit('wt:finish');
+                deferred.resolve();
             });
         }
+        return deferred.promise;
     }
     self.active = function () {
         return (self.activeStep ? true : false);
     }
 
     self._registerStep = function (step) {
-        if (self.registeredSteps[step.group] && self.registeredSteps[step.group][step.step]) {
-            console.log('Step Number ' + step.step + ' has already been registered for group ' + step.group + ', you can\'t have two steps in the same group with the same step number.');
-        }
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
     }

@@ -1,6 +1,6 @@
 {
   "name": "angular-walkthrough",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An AngularJS directive for easily creating website walkthroughs",
   "keywords": [
     "angularjs",

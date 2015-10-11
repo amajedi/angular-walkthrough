@@ -21,7 +21,7 @@
     </span>
     <span class="tb-right">
         <button ng-click="next()" class="btn btn-primary btn-xs next-btn">
-	        {{ (totalSteps == wtStep) ? "Finish" : "Next" }}
+	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? "Finish" : "Next") }}
         </button>
     </span>
 </div>
