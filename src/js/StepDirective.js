@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-walkthrough')
-.directive('wtStep', ['$compile', '$q', '$document', '$templateCache', function ($compile, $q, $document, $templateCache) {
+.directive('wtStep', ['$compile', '$q', '$document', '$templateCache', '$timeout', function ($compile, $q, $document, $templateCache, $timeout) {
     return {
         restrict: 'A',
         require: ['^walkthrough', 'wtStep'],
@@ -60,7 +60,7 @@ angular.module('angular-walkthrough')
                     group: scope.wtGroup || 'default',
                     show: function () {
                         var deferred = $q.defer();
-
+                        element[0].scrollIntoView(false);
                         element.popover({
                             html: true,
                             trigger: 'manual',
@@ -98,11 +98,17 @@ angular.module('angular-walkthrough')
                         var parentElm = element[0].parentNode;
                         while (parentElm != null) {
                             if (parentElm.tagName.toLowerCase() === 'body') break;
+                            var position = _getPropValue(parentElm, 'position');
                             var zIndex = _getPropValue(parentElm, 'z-index');
                             var opacity = parseFloat(_getPropValue(parentElm, 'opacity'));
                             var transform = _getPropValue(parentElm, 'transform') || _getPropValue(parentElm, '-webkit-transform') || _getPropValue(parentElm, '-moz-transform') || _getPropValue(parentElm, '-ms-transform') || _getPropValue(parentElm, '-o-transform');
                             if (/[0-9]+/.test(zIndex) || opacity < 1 || transform !== 'none') {
                                 parentElm.className += ' wt-fixParent';
+                                if (position === "fixed") {
+                                    parentElm.className += ' wt-position-fixed';
+                                    WalkThroughController._removeHelperLayer(element);
+                                    WalkThroughController._removeCoverLayer();
+                                }
                             }
                             parentElm = parentElm.parentNode;
                         }
@@ -147,6 +153,7 @@ angular.module('angular-walkthrough')
                             if (parentElm.tagName.toLowerCase() === 'body') break;
                             if (parentElm.className.indexOf('wt-fixParent' > -1)) {
                                 parentElm.className = parentElm.className.replace(/wt-fixParent/g, '').replace(/^\s+|\s+$/g, '');
+                                parentElm.className = parentElm.className.replace(/wt-position-fixed/g, '').replace(/^\s+|\s+$/g, '');
                             }
                             parentElm = parentElm.parentNode;
                         }

@@ -4,6 +4,7 @@
 
 .wt-popover-tb {
     padding: 5px 0 15px 0;
+    min-width: 215px;
 }
 
 .wt-popover-tb .tb-left {
@@ -31,7 +32,7 @@
 
 .wt-overlay {
   position: absolute;
-  z-index: 999999;
+  z-index: 9999997;
   background-color: #000;
   opacity: 0.9;
   background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
@@ -59,6 +60,9 @@
       -ms-transform: none !important;
        -o-transform: none !important;
           transform: none !important;
+}
+.wt-position-fixed {
+  position: fixed !important;
 }
 
 .wt-helperLayer {

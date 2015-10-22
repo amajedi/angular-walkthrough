@@ -71,4 +71,7 @@ angular.module('angular-walkthrough')
     self._removeHelperLayer = function () { $scope._removeHelperLayer(); }
     self._addCoverLayer = function (element) { $scope._addCoverLayer(element); }
     self._removeCoverLayer = function () { $scope._removeCoverLayer(); }
+    self._addOverlayLayer = function (element) { $scope._addOverlayLayer(element); }
+    self._removeOverlayLayer = function () { $scope._removeOverlayLayer(); }
+
 }]);

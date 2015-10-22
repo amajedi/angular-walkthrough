@@ -29,12 +29,11 @@ angular.module('angular-walkthrough')
                     overlayLayer.css({ top: 0, bottom: 0, left: 0, right: 0, position: 'fixed' });
                 } else {
                     // set overlay layer position
-                    var rect = element[0].getBoundingClientRect();
                     overlayLayer.css({
+                        top: element.offset().top,
+                        left: element.offset().left,
                         width: element[0].offsetWidth,
-                        height: element[0].offsetHeight,
-                        top: rect.top,
-                        left: reft.left
+                        height: element[0].offsetHeight
                     });
                 }
                 if (!overlayLayerAdded) {
@@ -50,10 +49,10 @@ angular.module('angular-walkthrough')
             var helperLayerAdded = false
             var helperLayer = angular.element('<div class="wt-helperLayer"></div>');
             scope._addHelperLayer = function (e) {
-                var rect = e[0].getBoundingClientRect();
                 helperLayer.css({
-                    top: rect.top,
-                    left: rect.left,
+                    position: 'absolute',
+                    top: e.offset().top,
+                    left: e.offset().left,
                     width: e[0].offsetWidth,
                     height: e[0].offsetHeight
                 });
@@ -69,10 +68,10 @@ angular.module('angular-walkthrough')
             var coverLayerAdded = false;
             var coverLayer = angular.element('<div class="wt-coverLayer"></div>');
             scope._addCoverLayer = function (e) {
-                var rect = e[0].getBoundingClientRect();
                 coverLayer.css({
-                    top: rect.top,
-                    left: rect.left,
+                    position: 'absolute',
+                    top: e.offset().top,
+                    left: e.offset().left,
                     width: e[0].offsetWidth,
                     height: e[0].offsetHeight
                 });
