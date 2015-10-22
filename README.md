@@ -12,7 +12,7 @@ To see this live, check out <http://amajedi.github.io/angular-walkthrough/>
 * IE 9+
 
 ## Install
-	bower install angular-walkthrough
+	bower install angular-walkthrough --save
 
 ## Setup
 
@@ -35,7 +35,7 @@ Don't forget to add angular-walkthrough as a dependency to your angular module:
 
 ## Usage
 
-Add the "walkthrough" directive to parent element containing all steps, this is usually the <body> element. This is where the backdrop will be placed.
+Add the "walkthrough" directive to parent element containing all steps, this is usually the body. This is where the backdrop will be placed.
 
 Additionally, functions are exposed to programmatically perform actions such as starting/stopping the walkthrough, moving to the next/previous step, as well as checking to see if a walkthrough step is currently active. You can expose these functions onto your scope by the wtStart, wtCancel, wtNext, wtPrev, and wtActive attribute directives.
 
