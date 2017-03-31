@@ -36,7 +36,7 @@ angular.module('angular-walkthrough')
         } else {
             self._contentElement = contentEle;
         }
-    }
+    };
 
     self._unregisterContent = function () {
         this._contentElement = null;
@@ -69,7 +69,7 @@ angular.module('angular-walkthrough')
                 scope.next = function () {
                     if (scope.wtOnNext) scope.wtOnNext();
                     WalkThroughController.next();
-                }
+                };
                 scope.restart = WalkThroughController.start;
                 scope.previous = WalkThroughController.prev;
 
@@ -218,15 +218,17 @@ angular.module('angular-walkthrough')
     self.registeredSteps = {};
 
     // public
+    self.deferred = $q.defer();
     self.start = function (group) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
         self._showNextStep(1, group);
-    }
+        return self.deferred.promise
+    };
     self.next = function () { self._showNextStep(); }
     self.prev = function () { self._showPreviousStep(); }
     self.cancel = function () {
-        var deferred = $q.defer();
+        var deferred = self.deferred;
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
@@ -235,15 +237,15 @@ angular.module('angular-walkthrough')
             });
         }
         return deferred.promise;
-    }
+    };
     self.active = function () {
         return (self.activeStep ? true : false);
-    }
+    };
 
     self._registerStep = function (step) {
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
-    }
+    };
     //
     // can be used to start the walkthrough, go to the next step, or jump to a step
     //
@@ -267,22 +269,22 @@ angular.module('angular-walkthrough')
         } else {
             self.cancel();
         }
-    }
+    };
     self._showPreviousStep = function () {
         if (self.activeStep && self.registeredSteps[self.activeStep.group][self.activeStep.step - 1]) {
             self._showNextStep(self.activeStep.step - 1);
         }
-    }
+    };
     self._getNumSteps = function (group) {
         group = group || 'default';
         return Object.keys(self.registeredSteps[group]).length;
-    }
-    self._addHelperLayer = function (element) { $scope._addHelperLayer(element); }
-    self._removeHelperLayer = function () { $scope._removeHelperLayer(); }
-    self._addCoverLayer = function (element) { $scope._addCoverLayer(element); }
-    self._removeCoverLayer = function () { $scope._removeCoverLayer(); }
-    self._addOverlayLayer = function (element) { $scope._addOverlayLayer(element); }
-    self._removeOverlayLayer = function () { $scope._removeOverlayLayer(); }
+    };
+    self._addHelperLayer = function (element) { $scope._addHelperLayer(element); };
+    self._removeHelperLayer = function () { $scope._removeHelperLayer(); };
+    self._addCoverLayer = function (element) { $scope._addCoverLayer(element); };
+    self._removeCoverLayer = function () { $scope._removeCoverLayer(); };
+    self._addOverlayLayer = function (element) { $scope._addOverlayLayer(element); };
+    self._removeOverlayLayer = function () { $scope._removeOverlayLayer(); };
 
 }]);
 angular.module('angular-walkthrough')
@@ -325,13 +327,13 @@ angular.module('angular-walkthrough')
                 	overlayLayerAdded = true;
                 	element.append(overlayLayer); 
                 }
-            }
+            };
             scope._removeOverlayLayer = function () {
             	overlayLayerAdded = false;
                 overlayLayer.remove();
-            }
+            };
 
-            var helperLayerAdded = false
+            var helperLayerAdded = false;
             var helperLayer = angular.element('<div class="wt-helperLayer"></div>');
             scope._addHelperLayer = function (e) {
                 helperLayer.css({
@@ -344,11 +346,11 @@ angular.module('angular-walkthrough')
                 if (!helperLayerAdded) {
                 	element.append(helperLayer);
                 }
-            }
+            };
             scope._removeHelperLayer = function () {
             	helperLayerAdded = false;
                 helperLayer.remove();
-            }
+            };
 
             var coverLayerAdded = false;
             var coverLayer = angular.element('<div class="wt-coverLayer"></div>');
@@ -364,7 +366,7 @@ angular.module('angular-walkthrough')
                 	coverLayerAdded = true;
                 	element.append(coverLayer);
                 }
-            }
+            };
             scope._removeCoverLayer = function () {
             	coverLayerAdded = false;
                 coverLayer.remove();
