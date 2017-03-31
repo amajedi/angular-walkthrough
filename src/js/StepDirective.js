@@ -27,7 +27,7 @@ angular.module('angular-walkthrough')
                 scope.next = function () {
                     if (scope.wtOnNext) scope.wtOnNext();
                     WalkThroughController.next();
-                }
+                };
                 scope.restart = WalkThroughController.start;
                 scope.previous = WalkThroughController.prev;
 
