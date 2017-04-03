@@ -351,7 +351,9 @@ angular.module('angular-walkthrough')
                         top: element.offset().top,
                         left: element.offset().left,
                         width: element[0].offsetWidth,
-                        height: element[0].offsetHeight
+                        height: element[0].offsetHeight,
+                        opacity: "0.6",
+                        background: "#000"
                     });
                 }
                 if (!overlayLayerAdded) {
