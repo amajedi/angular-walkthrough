@@ -74,7 +74,6 @@ module.exports = function(grunt) {
     'html2js',
     'cssmin:dist',
     'concat:dist',
-    'uglify:dist',
     'concat:dist_tpls',
     'uglify:dist_tpls'
   ]);

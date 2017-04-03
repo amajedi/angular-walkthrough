@@ -221,7 +221,7 @@ angular.module('angular-walkthrough')
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
         self._showNextStep(1, group);
-        return self.deferred.promise
+        return self.deferred.promise;
     };
     self.next = function () { self._showNextStep(); }
     self.prev = function () { self._showPreviousStep(); }
