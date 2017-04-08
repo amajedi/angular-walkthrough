@@ -5,16 +5,14 @@ angular.module('angular-walkthrough')
     return {
         restrict: 'A',
         require: ['^walkthrough', 'wtStep'],
-        scope: {
-            wtText: '@',
-            wtPosition: '@',
-            wtGroup: '@',
-            wtBtnText: '@',
-            wtOnNext: '&'
-        },
         controller: 'StepController',
         link: function (scope, element, attrs, ctrls) {
 
+            scope.wtText        = attrs.wtText;
+            scope.wtPosition    = attrs.wtPosition;
+            scope.wtGroup       = attrs.wtGroup;
+            scope.wtBtnText     = attrs.wtBtnText;
+            scope.wtOnNext      = attrs.wtOnNext;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
 
@@ -27,7 +25,7 @@ angular.module('angular-walkthrough')
                 scope.next = function () {
                     if (scope.wtOnNext) scope.wtOnNext();
                     WalkThroughController.next();
-                }
+                };
                 scope.restart = WalkThroughController.start;
                 scope.previous = WalkThroughController.prev;
 

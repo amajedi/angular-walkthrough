@@ -33,20 +33,23 @@ angular.module('angular-walkthrough')
                         top: element.offset().top,
                         left: element.offset().left,
                         width: element[0].offsetWidth,
-                        height: element[0].offsetHeight
+                        height: element[0].offsetHeight,
+                        opacity: "0.6",
+                        background: "#000",
+                        position: "absolute"
                     });
                 }
                 if (!overlayLayerAdded) {
                 	overlayLayerAdded = true;
                 	element.append(overlayLayer); 
                 }
-            }
+            };
             scope._removeOverlayLayer = function () {
             	overlayLayerAdded = false;
                 overlayLayer.remove();
-            }
+            };
 
-            var helperLayerAdded = false
+            var helperLayerAdded = false;
             var helperLayer = angular.element('<div class="wt-helperLayer"></div>');
             scope._addHelperLayer = function (e) {
                 helperLayer.css({
@@ -59,11 +62,11 @@ angular.module('angular-walkthrough')
                 if (!helperLayerAdded) {
                 	element.append(helperLayer);
                 }
-            }
+            };
             scope._removeHelperLayer = function () {
             	helperLayerAdded = false;
                 helperLayer.remove();
-            }
+            };
 
             var coverLayerAdded = false;
             var coverLayer = angular.element('<div class="wt-coverLayer"></div>');
@@ -79,7 +82,7 @@ angular.module('angular-walkthrough')
                 	coverLayerAdded = true;
                 	element.append(coverLayer);
                 }
-            }
+            };
             scope._removeCoverLayer = function () {
             	coverLayerAdded = false;
                 coverLayer.remove();

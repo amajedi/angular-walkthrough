@@ -12,7 +12,7 @@ angular.module('angular-walkthrough')
         } else {
             self._contentElement = contentEle;
         }
-    }
+    };
 
     self._unregisterContent = function () {
         this._contentElement = null;
