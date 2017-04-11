@@ -5,32 +5,41 @@ angular.module('templates', ['wt-popover-toolbar.html']);
 
 angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("wt-popover-toolbar.html",
-    "<div class=\"wt-popover-tb\">\n" +
-    "    <span class=\"tb-left\">\n" +
-    "        <span>\n" +
-    "	        {{wtStep}} of {{totalSteps}}\n" +
-    "        </span>\n" +
-    "        <span>\n" +
-    "	        <a ng-click=\"cancel()\">\n" +
-    "		        Cancel\n" +
-    "	        </a>\n" +
-    "        </span>\n" +
-    "        <span ng-if=\"wtStep > 1\">\n" +
-    "	        <a ng-click=\"restart()\">\n" +
-    "		        Restart\n" +
-    "	        </a>\n" +
-    "        </span>\n" +
-    "        <span ng-if=\"wtStep > 1\">\n" +
-    "	        <a ng-click=\"previous()\">\n" +
-    "		        Back\n" +
-    "	        </a>\n" +
-    "        </span>\n" +
-    "    </span>\n" +
-    "    <span class=\"tb-right\">\n" +
-    "        <button ng-click=\"next()\" class=\"btn btn-primary btn-xs next-btn\">\n" +
-    "	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? \"Finish\" : \"Next\") }}\n" +
-    "        </button>\n" +
-    "    </span>\n" +
+    "<!--  div class=\"pos_abs colo99\" style=\"top:10px;right:10px\">\n" +
+    " {{wtStep}} of {{totalSteps}}\n" +
+    "</div-->\n" +
+    "<div class=\"wt-popover-tb marginT8 pos_rel\">\n" +
+    "	<div class=\"floatL\"></div>\n" +
+    "	<div class=\"floatR lineHeight24\">\n" +
+    "	    <div class=\"tb-left floatL color99\">\n" +
+    "	     	<div class=\"floatL colo99\">\n" +
+    "			 {{wtStep}} of {{totalSteps}}\n" +
+    "			</div>\n" +
+    "	        <div class=\"floatL F12 marginL10 cursor\"\n" +
+    "	        	 ng-click=\"cancel()\">\n" +
+    "		        SKIP\n" +
+    "		     </div>\n" +
+    "	        <div ng-click=\"restart()\"\n" +
+    "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
+    "		        RESTART\n" +
+    "		    </div>\n" +
+    "	        <div ng-click=\"previous()\"\n" +
+    "	        	 class=\"ffloatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
+    "		         BACK\n" +
+    "		      </div>\n" +
+    "	        <div class=\"clear\"></div>\n" +
+    "	    </div>\n" +
+    "	    <div ng-click=\"next()\"\n" +
+    "	    	class=\"tb-right floatL marginL10 next-btn color0072bc cursor\">\n" +
+    "	        <!--  button ng-click=\"next()\" class=\"btn btn-primary btn-xs next-btn\"\n" +
+    "	        	style=\"background: none;text-shadow: none;box-shadow: none;padding: 0;line-height: 100%;\">\n" +
+    "		        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? \"Finish\" : \"Next\") }}\n" +
+    "	        </button-->\n" +
+    "	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? \"FINISH\" : \"NEXT\") }}\n" +
+    "	    </div>\n" +
+    "	    <div class=\"clear\"></div>\n" +
+    "	   </div> \n" +
+    "	   <div class=\"clear\"></div>\n" +
     "</div>");
 }]);
 
@@ -258,13 +267,14 @@ angular.module('angular-walkthrough')
     };
     self.next = function () { self._showNextStep(); }
     self.prev = function () { self._showPreviousStep(); }
-    self.cancel = function () {
+    self.cancel = function (cancelCondition) {
         var deferred = self.deferred;
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
+                var activeStepTemp = self.activeStep;
                 self.activeStep = undefined;
-                deferred.resolve();
+                deferred.resolve({ "cancel": !cancelCondition, step: activeStepTemp });
             });
         }
         return deferred.promise;
@@ -298,7 +308,7 @@ angular.module('angular-walkthrough')
                 showNext(nextStep, nextGroup);
             }
         } else {
-            self.cancel();
+            self.cancel(true);
         }
     };
     self._showPreviousStep = function () {
