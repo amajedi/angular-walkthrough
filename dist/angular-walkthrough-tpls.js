@@ -30,7 +30,7 @@ angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function ($
     "	        <div class=\"clear\"></div>\n" +
     "	    </div>\n" +
     "	    <div ng-click=\"next()\"\n" +
-    "	    	class=\"tb-right floatL marginL10 next-btn color0072bc cursor\">\n" +
+    "	    	class=\"tb-right floatL marginL10 next-btn F12 color0072bc cursor\">\n" +
     "	        <!--  button ng-click=\"next()\" class=\"btn btn-primary btn-xs next-btn\"\n" +
     "	        	style=\"background: none;text-shadow: none;box-shadow: none;padding: 0;line-height: 100%;\">\n" +
     "		        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? \"Finish\" : \"Next\") }}\n" +
