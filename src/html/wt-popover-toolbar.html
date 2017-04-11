@@ -1,27 +1,36 @@
-<div class="wt-popover-tb">
-    <span class="tb-left">
-        <span>
-	        {{wtStep}} of {{totalSteps}}
-        </span>
-        <span>
-	        <a ng-click="cancel()">
-		        Cancel
-	        </a>
-        </span>
-        <span ng-if="wtStep > 1">
-	        <a ng-click="restart()">
-		        Restart
-	        </a>
-        </span>
-        <span ng-if="wtStep > 1">
-	        <a ng-click="previous()">
-		        Back
-	        </a>
-        </span>
-    </span>
-    <span class="tb-right">
-        <button ng-click="next()" class="btn btn-primary btn-xs next-btn">
-	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? "Finish" : "Next") }}
-        </button>
-    </span>
+<!--  div class="pos_abs colo99" style="top:10px;right:10px">
+ {{wtStep}} of {{totalSteps}}
+</div-->
+<div class="wt-popover-tb marginT8 pos_rel">
+	<div class="floatL"></div>
+	<div class="floatR lineHeight24">
+	    <div class="tb-left floatL color99">
+	     	<div class="floatL colo99">
+			 {{wtStep}} of {{totalSteps}}
+			</div>
+	        <div class="floatL F12 marginL10 cursor"
+	        	 ng-click="cancel()">
+		        SKIP
+		     </div>
+	        <div ng-click="restart()"
+	        	 class="floatL F12 marginL10 cursor" ng-if="wtStep > 1">
+		        RESTART
+		    </div>
+	        <div ng-click="previous()"
+	        	 class="ffloatL F12 marginL10 cursor" ng-if="wtStep > 1">
+		         BACK
+		      </div>
+	        <div class="clear"></div>
+	    </div>
+	    <div ng-click="next()"
+	    	class="tb-right floatL marginL10 next-btn color0072bc cursor">
+	        <!--  button ng-click="next()" class="btn btn-primary btn-xs next-btn"
+	        	style="background: none;text-shadow: none;box-shadow: none;padding: 0;line-height: 100%;">
+		        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? "Finish" : "Next") }}
+	        </button-->
+	        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? "FINISH" : "NEXT") }}
+	    </div>
+	    <div class="clear"></div>
+	   </div> 
+	   <div class="clear"></div>
 </div>
