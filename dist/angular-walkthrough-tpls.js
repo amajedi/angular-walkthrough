@@ -147,7 +147,7 @@ angular.module('angular-walkthrough')
                             html: true,
                             trigger: 'manual',
                             container: 'body',
-                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content F13 lineHeight20 color99"></div></div>',
+                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content F13 lineHeight20"></div></div>',
                             viewport: {
                                 selector: 'body',
                                 padding: 2
