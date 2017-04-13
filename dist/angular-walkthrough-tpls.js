@@ -24,7 +24,7 @@ angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function ($
     "		        RESTART\n" +
     "		    </div>\n" +
     "	        <div ng-click=\"previous()\"\n" +
-    "	        	 class=\"ffloatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
+    "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
     "		         BACK\n" +
     "		      </div>\n" +
     "	        <div class=\"clear\"></div>\n" +
