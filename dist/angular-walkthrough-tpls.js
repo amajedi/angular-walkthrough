@@ -91,7 +91,7 @@ angular.module('angular-walkthrough')
         require: ['^walkthrough', 'wtStep'],
         controller: 'StepController',
         link: function (parentScope, element, attrs, ctrls) {
-            var scope = {}
+            var scope = parentScope.$new(true);
             scope.wtText        = attrs.wtText;
             scope.wtPosition    = attrs.wtPosition;
             scope.wtGroup       = attrs.wtGroup;
