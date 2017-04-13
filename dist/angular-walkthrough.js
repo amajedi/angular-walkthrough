@@ -97,8 +97,8 @@ angular.module('angular-walkthrough')
                 // we need to register the step with the walkthrough controller
                 var originalZIndex, originalPosition;
                 WalkThroughController._registerStep({
-                    step: parseInt(this.wtStep),
-                    group: this.wtGroup || 'default',
+                    step: parseInt(scope.wtStep),
+                    group: scope.wtGroup || 'default',
                     show: function () {
                         var deferred = $q.defer();
                         element[0].scrollIntoView(false);
