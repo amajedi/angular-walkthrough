@@ -264,10 +264,10 @@ angular.module('angular-walkthrough')
 
     // public
     self.deferred = $q.defer();
-    self.start = function (group) {
+    self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
-        self._showNextStep(1, group);
+        self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };
     self.next = function () { self._showNextStep(); }
