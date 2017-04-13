@@ -15,16 +15,20 @@ angular.module('angular-walkthrough')
         self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };
-    self.next = function () { self._showNextStep(); }
-    self.prev = function () { self._showPreviousStep(); }
-    self.cancel = function (cancelCondition) {
+    self.next = function () { self._showNextStep(); };
+    self.prev = function () { self._showPreviousStep(); };
+    self.cancel = function ( cancelCondition, group ) {
         var deferred = self.deferred;
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
                 var activeStepTemp = self.activeStep;
                 self.activeStep = undefined;
-                deferred.resolve({ "cancel": !cancelCondition, step: activeStepTemp });
+                deferred.resolve({
+                    "cancel"    : !cancelCondition,
+                    step        : activeStepTemp,
+                    totalSteps  : self._getNumSteps( activeStepTemp.group )
+                });
             });
         }
         return deferred.promise;
@@ -58,7 +62,7 @@ angular.module('angular-walkthrough')
                 showNext(nextStep, nextGroup);
             }
         } else {
-            self.cancel(true);
+            self.cancel(true, group);
         }
     };
     self._showPreviousStep = function () {
