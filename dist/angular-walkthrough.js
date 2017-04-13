@@ -48,8 +48,8 @@ angular.module('angular-walkthrough')
         restrict: 'A',
         require: ['^walkthrough', 'wtStep'],
         controller: 'StepController',
-        link: function (scope, element, attrs, ctrls) {
-
+        link: function (parentScope, element, attrs, ctrls) {
+            var scope = {}
             scope.wtText        = attrs.wtText;
             scope.wtPosition    = attrs.wtPosition;
             scope.wtGroup       = attrs.wtGroup;
