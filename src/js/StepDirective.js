@@ -13,6 +13,7 @@ angular.module('angular-walkthrough')
             scope.wtGroup       = attrs.wtGroup;
             scope.wtBtnText     = attrs.wtBtnText;
             scope.wtOnNext      = attrs.wtOnNext;
+            scope.customCss     = attrs.wtStepCss;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
 
@@ -54,8 +55,8 @@ angular.module('angular-walkthrough')
                 // we need to register the step with the walkthrough controller
                 var originalZIndex, originalPosition;
                 WalkThroughController._registerStep({
-                    step: parseInt(scope.wtStep),
-                    group: scope.wtGroup || 'default',
+                    step: parseInt(this.wtStep),
+                    group: this.wtGroup || 'default',
                     show: function () {
                         var deferred = $q.defer();
                         element[0].scrollIntoView(false);
@@ -68,7 +69,7 @@ angular.module('angular-walkthrough')
                                 selector: 'body',
                                 padding: 2
                             },
-                            placement: (scope.wtPosition ? scope.wtPosition : 'auto'),
+                            placement: (this.wtPosition ? this.wtPosition : 'auto'),
                             content: function () {
                                 return StepController._contentElement;
                             }
@@ -131,7 +132,7 @@ angular.module('angular-walkthrough')
                         }
 
                         return deferred.promise;
-                    },
+                    }.bind(scope),
                     hide: function () {
                         var deferred = $q.defer();
                         element.on('hidden.bs.popover', function () {
