@@ -98,6 +98,7 @@ angular.module('angular-walkthrough')
             scope.wtBtnText     = attrs.wtBtnText;
             scope.wtOnNext      = attrs.wtOnNext;
             scope.customCss     = attrs.wtStepCss;
+            scope.wtTitle       = attrs.wtTitle;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
 
@@ -144,7 +145,7 @@ angular.module('angular-walkthrough')
                     show: function () {
                         var deferred = $q.defer();
                         element[0].scrollIntoView(false);
-                        element.popover({
+                        var popoverOptions = {
                             html: true,
                             trigger: 'manual',
                             container: 'body',
@@ -157,7 +158,10 @@ angular.module('angular-walkthrough')
                             content: function () {
                                 return StepController._contentElement;
                             }
-                        });
+                        };
+
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle;
+                        element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {
                             deferred.resolve();
