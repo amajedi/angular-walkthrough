@@ -12,6 +12,7 @@ angular.module('angular-walkthrough')
     self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
+        self.startStep = ( step ) ? step - 1 : 0;
         self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };

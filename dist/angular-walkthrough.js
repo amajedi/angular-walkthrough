@@ -118,7 +118,12 @@ angular.module('angular-walkthrough')
                             }
                         };
 
-                        if( this.wtTitle ) popoverOptions.title = this.wtTitle;
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle +
+                            "<div class='floatR colo99'>" +
+                                ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
+                                ( scope.totalSteps - WalkThroughController.startStep )+
+                            "</div>" +
+                            "<div class='clear'></div>";
                         element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {
@@ -225,6 +230,7 @@ angular.module('angular-walkthrough')
     self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
+        self.startStep = ( step ) ? step - 1 : 0;
         self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };

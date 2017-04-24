@@ -76,7 +76,12 @@ angular.module('angular-walkthrough')
                             }
                         };
 
-                        if( this.wtTitle ) popoverOptions.title = this.wtTitle;
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle +
+                            "<div class='floatR colo99'>" +
+                                ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
+                                ( scope.totalSteps - WalkThroughController.startStep )+
+                            "</div>" +
+                            "<div class='clear'></div>";
                         element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {

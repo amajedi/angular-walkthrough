@@ -12,17 +12,17 @@ angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function ($
     "	<div class=\"floatL\"></div>\n" +
     "	<div class=\"floatR lineHeight24\">\n" +
     "	    <div class=\"tb-left floatL color99\">\n" +
-    "	     	<div class=\"floatL colo99\">\n" +
-    "			 {{wtStep}} of {{totalSteps}}\n" +
-    "			</div>\n" +
+    "	     	<!--<div class=\"floatL colo99\">-->\n" +
+    "			 <!--{{wtStep}} of {{totalSteps}}-->\n" +
+    "			<!--</div>-->\n" +
     "	        <div class=\"floatL F12 marginL10 cursor\"\n" +
     "	        	 ng-click=\"cancel()\">\n" +
     "		        SKIP\n" +
     "		     </div>\n" +
-    "	        <div ng-click=\"restart()\"\n" +
-    "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
-    "		        RESTART\n" +
-    "		    </div>\n" +
+    "	        <!--<div ng-click=\"restart()\"-->\n" +
+    "	        	 <!--class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">-->\n" +
+    "		        <!--RESTART-->\n" +
+    "		    <!--</div>-->\n" +
     "	        <div ng-click=\"previous()\"\n" +
     "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
     "		         BACK\n" +
@@ -160,7 +160,12 @@ angular.module('angular-walkthrough')
                             }
                         };
 
-                        if( this.wtTitle ) popoverOptions.title = this.wtTitle;
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle +
+                            "<div class='floatR colo99'>" +
+                                ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
+                                ( scope.totalSteps - WalkThroughController.startStep )+
+                            "</div>" +
+                            "<div class='clear'></div>";
                         element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {
@@ -267,6 +272,7 @@ angular.module('angular-walkthrough')
     self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
+        self.startStep = ( step ) ? step - 1 : 0;
         self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };
