@@ -119,7 +119,7 @@ angular.module('angular-walkthrough')
                         };
                         scope.startStep = WalkThroughController.startStep || 0;
                         if( this.wtTitle ) popoverOptions.title = this.wtTitle +
-                            "<div class='floatR colo99'>" +
+                            "<div class='floatR colo99 step-custom-class'>" +
                                 ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
                                 ( scope.totalSteps - WalkThroughController.startStep )+
                             "</div>" +
