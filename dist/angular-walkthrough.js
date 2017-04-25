@@ -117,7 +117,7 @@ angular.module('angular-walkthrough')
                                 return StepController._contentElement;
                             }
                         };
-
+                        scope.startStep = WalkThroughController.startStep || 0;
                         if( this.wtTitle ) popoverOptions.title = this.wtTitle +
                             "<div class='floatR colo99'>" +
                                 ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +

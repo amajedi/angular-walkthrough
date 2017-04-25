@@ -24,7 +24,7 @@ angular.module("wt-popover-toolbar.html", []).run(["$templateCache", function ($
     "		        <!--RESTART-->\n" +
     "		    <!--</div>-->\n" +
     "	        <div ng-click=\"previous()\"\n" +
-    "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep > 1\">\n" +
+    "	        	 class=\"floatL F12 marginL10 cursor\" ng-if=\"wtStep - startStep > 1\">\n" +
     "		         BACK\n" +
     "		      </div>\n" +
     "	        <div class=\"clear\"></div>\n" +
@@ -159,7 +159,7 @@ angular.module('angular-walkthrough')
                                 return StepController._contentElement;
                             }
                         };
-
+                        scope.startStep = WalkThroughController.startStep || 0;
                         if( this.wtTitle ) popoverOptions.title = this.wtTitle +
                             "<div class='floatR colo99'>" +
                                 ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
