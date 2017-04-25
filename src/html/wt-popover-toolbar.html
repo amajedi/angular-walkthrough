@@ -8,7 +8,7 @@
 	     	<!--<div class="floatL colo99">-->
 			 <!--{{wtStep}} of {{totalSteps}}-->
 			<!--</div>-->
-	        <div class="floatL F12 marginL10 cursor"
+	        <div class="floatL F12 marginL10 cursor button-custom-class skip-button-custom-class"
 	        	 ng-click="cancel()">
 		        SKIP
 		     </div>
@@ -17,13 +17,13 @@
 		        <!--RESTART-->
 		    <!--</div>-->
 	        <div ng-click="previous()"
-	        	 class="floatL F12 marginL10 cursor" ng-if="wtStep - startStep > 1">
+	        	 class="floatL F12 marginL10 cursor prev-button-custom-class button-custom-class" ng-if="wtStep - startStep > 1">
 		         BACK
 		      </div>
 	        <div class="clear"></div>
 	    </div>
 	    <div ng-click="next()"
-	    	class="tb-right floatL marginL10 next-btn F12 color0072bc cursor">
+	    	class="tb-right floatL marginL10 next-btn F12 color0072bc cursor next-button-custom-class button-custom-class">
 	        <!--  button ng-click="next()" class="btn btn-primary btn-xs next-btn"
 	        	style="background: none;text-shadow: none;box-shadow: none;padding: 0;line-height: 100%;">
 		        {{ wtBtnText ? wtBtnText : ((totalSteps == wtStep) ? "Finish" : "Next") }}
