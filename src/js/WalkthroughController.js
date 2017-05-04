@@ -42,6 +42,11 @@ angular.module('angular-walkthrough')
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
     };
+
+    self._unregisterStep = function (step) {
+        if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
+        delete self.registeredSteps[step.group][step.step];
+    };
     //
     // can be used to start the walkthrough, go to the next step, or jump to a step
     //

@@ -82,7 +82,7 @@ angular.module('angular-walkthrough')
 
     self._unregisterContent = function () {
         this._contentElement = null;
-    }
+    };
 }]);
 angular.module('angular-walkthrough')
 .directive('wtStep', ['$compile', '$q', '$document', '$templateCache', '$timeout', function ($compile, $q, $document, $templateCache, $timeout) {
@@ -101,7 +101,6 @@ angular.module('angular-walkthrough')
             scope.wtTitle       = attrs.wtTitle;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
-
             (attrs.wtStep ? scope.wtStep = attrs.wtStep : console.log('Missing step number on wtStep directive'));
             if (!StepController._contentElement && !scope.wtText) {
                 console.log('wtStep directive is missing content, need either wtText or wtStepContent.');
@@ -257,6 +256,12 @@ angular.module('angular-walkthrough')
                     }
                 });
             }
+            parentScope.$on( "$destroy", function () {
+                WalkThroughController._unregisterStep({
+                    step: scope.wtStep,
+                    group: scope.wtGroup || 'default'
+                })
+            });
         }
     }
 }]);
@@ -301,6 +306,11 @@ angular.module('angular-walkthrough')
     self._registerStep = function (step) {
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
+    };
+
+    self._unregisterStep = function (step) {
+        if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
+        delete self.registeredSteps[step.group][step.step];
     };
     //
     // can be used to start the walkthrough, go to the next step, or jump to a step

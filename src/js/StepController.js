@@ -16,5 +16,5 @@ angular.module('angular-walkthrough')
 
     self._unregisterContent = function () {
         this._contentElement = null;
-    }
+    };
 }]);

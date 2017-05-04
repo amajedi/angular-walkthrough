@@ -17,7 +17,6 @@ angular.module('angular-walkthrough')
             scope.wtTitle       = attrs.wtTitle;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
-
             (attrs.wtStep ? scope.wtStep = attrs.wtStep : console.log('Missing step number on wtStep directive'));
             if (!StepController._contentElement && !scope.wtText) {
                 console.log('wtStep directive is missing content, need either wtText or wtStepContent.');
@@ -173,6 +172,12 @@ angular.module('angular-walkthrough')
                     }
                 });
             }
+            parentScope.$on( "$destroy", function () {
+                WalkThroughController._unregisterStep({
+                    step: scope.wtStep,
+                    group: scope.wtGroup || 'default'
+                })
+            });
         }
     }
 }]);
