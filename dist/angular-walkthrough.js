@@ -40,7 +40,7 @@ angular.module('angular-walkthrough')
 
     self._unregisterContent = function () {
         this._contentElement = null;
-    }
+    };
 }]);
 angular.module('angular-walkthrough')
 .directive('wtStep', ['$compile', '$q', '$document', '$templateCache', '$timeout', function ($compile, $q, $document, $templateCache, $timeout) {
@@ -48,16 +48,17 @@ angular.module('angular-walkthrough')
         restrict: 'A',
         require: ['^walkthrough', 'wtStep'],
         controller: 'StepController',
-        link: function (scope, element, attrs, ctrls) {
-
+        link: function (parentScope, element, attrs, ctrls) {
+            var scope = parentScope.$new(true);
             scope.wtText        = attrs.wtText;
             scope.wtPosition    = attrs.wtPosition;
             scope.wtGroup       = attrs.wtGroup;
             scope.wtBtnText     = attrs.wtBtnText;
             scope.wtOnNext      = attrs.wtOnNext;
+            scope.customCss     = attrs.wtStepCss;
+            scope.wtTitle       = attrs.wtTitle;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
-
             (attrs.wtStep ? scope.wtStep = attrs.wtStep : console.log('Missing step number on wtStep directive'));
             if (!StepController._contentElement && !scope.wtText) {
                 console.log('wtStep directive is missing content, need either wtText or wtStepContent.');
@@ -101,20 +102,28 @@ angular.module('angular-walkthrough')
                     show: function () {
                         var deferred = $q.defer();
                         element[0].scrollIntoView(false);
-                        element.popover({
+                        var popoverOptions = {
                             html: true,
                             trigger: 'manual',
                             container: 'body',
-                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content"></div></div>',
+                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title popover-title-custom"></h3><div class="popover-content wt-popover-content wt-popover-content-custom"></div></div>',
                             viewport: {
                                 selector: 'body',
                                 padding: 2
                             },
-                            placement: (scope.wtPosition ? scope.wtPosition : 'auto'),
+                            placement: (this.wtPosition ? this.wtPosition : 'auto'),
                             content: function () {
                                 return StepController._contentElement;
                             }
-                        });
+                        };
+                        scope.startStep = WalkThroughController.startStep || 0;
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle +
+                            "<div class='floatR colo99 step-custom-class'>" +
+                                ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
+                                ( scope.totalSteps - WalkThroughController.startStep )+
+                            "</div>" +
+                            "<div class='clear'></div>";
+                        element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {
                             deferred.resolve();
@@ -173,7 +182,7 @@ angular.module('angular-walkthrough')
                         }
 
                         return deferred.promise;
-                    },
+                    }.bind(scope),
                     hide: function () {
                         var deferred = $q.defer();
                         element.on('hidden.bs.popover', function () {
@@ -205,6 +214,12 @@ angular.module('angular-walkthrough')
                     }
                 });
             }
+            parentScope.$on( "$destroy", function () {
+                WalkThroughController._unregisterStep({
+                    step: scope.wtStep,
+                    group: scope.wtGroup || 'default'
+                })
+            });
         }
     }
 }]);
@@ -217,21 +232,27 @@ angular.module('angular-walkthrough')
 
     // public
     self.deferred = $q.defer();
-    self.start = function (group) {
+    self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
-        self._showNextStep(1, group);
+        self.startStep = ( step ) ? step - 1 : 0;
+        self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };
-    self.next = function () { self._showNextStep(); }
-    self.prev = function () { self._showPreviousStep(); }
-    self.cancel = function () {
+    self.next = function () { self._showNextStep(); };
+    self.prev = function () { self._showPreviousStep(); };
+    self.cancel = function ( cancelCondition, group ) {
         var deferred = self.deferred;
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
+                var activeStepTemp = self.activeStep;
                 self.activeStep = undefined;
-                deferred.resolve();
+                deferred.resolve({
+                    "cancel"    : !cancelCondition,
+                    step        : activeStepTemp,
+                    totalSteps  : self._getNumSteps( activeStepTemp.group )
+                });
             });
         }
         return deferred.promise;
@@ -243,6 +264,11 @@ angular.module('angular-walkthrough')
     self._registerStep = function (step) {
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
+    };
+
+    self._unregisterStep = function (step) {
+        if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
+        delete self.registeredSteps[step.group][step.step];
     };
     //
     // can be used to start the walkthrough, go to the next step, or jump to a step
@@ -265,7 +291,7 @@ angular.module('angular-walkthrough')
                 showNext(nextStep, nextGroup);
             }
         } else {
-            self.cancel();
+            self.cancel(true, group);
         }
     };
     self._showPreviousStep = function () {

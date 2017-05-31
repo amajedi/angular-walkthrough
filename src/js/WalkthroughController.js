@@ -9,21 +9,27 @@ angular.module('angular-walkthrough')
 
     // public
     self.deferred = $q.defer();
-    self.start = function (group) {
+    self.start = function (group, step ) {
     	console.log('start: ' + group);
         $scope._addOverlayLayer();
-        self._showNextStep(1, group);
+        self.startStep = ( step ) ? step - 1 : 0;
+        self._showNextStep( step? step : 1, group);
         return self.deferred.promise;
     };
-    self.next = function () { self._showNextStep(); }
-    self.prev = function () { self._showPreviousStep(); }
-    self.cancel = function () {
+    self.next = function () { self._showNextStep(); };
+    self.prev = function () { self._showPreviousStep(); };
+    self.cancel = function ( cancelCondition, group ) {
         var deferred = self.deferred;
         $scope._removeOverlayLayer();
         if (self.activeStep) {
             self.activeStep.hide().then(function () {
+                var activeStepTemp = self.activeStep;
                 self.activeStep = undefined;
-                deferred.resolve();
+                deferred.resolve({
+                    "cancel"    : !cancelCondition,
+                    step        : activeStepTemp,
+                    totalSteps  : self._getNumSteps( activeStepTemp.group )
+                });
             });
         }
         return deferred.promise;
@@ -35,6 +41,11 @@ angular.module('angular-walkthrough')
     self._registerStep = function (step) {
         if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
         self.registeredSteps[step.group][step.step] = step;
+    };
+
+    self._unregisterStep = function (step) {
+        if (!self.registeredSteps[step.group]) self.registeredSteps[step.group] = {};
+        delete self.registeredSteps[step.group][step.step];
     };
     //
     // can be used to start the walkthrough, go to the next step, or jump to a step
@@ -57,7 +68,7 @@ angular.module('angular-walkthrough')
                 showNext(nextStep, nextGroup);
             }
         } else {
-            self.cancel();
+            self.cancel(true, group);
         }
     };
     self._showPreviousStep = function () {

@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git://github.com/amajedi/angular-walkthrough.git"
   },
-  "main": "./dist/angular-walkthrough-tpls.min.js",
+  "main": "./dist/angular-walkthrough-tpls.js",
   "ignore": [
     ".*",
     "node_modules",

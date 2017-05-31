@@ -6,16 +6,17 @@ angular.module('angular-walkthrough')
         restrict: 'A',
         require: ['^walkthrough', 'wtStep'],
         controller: 'StepController',
-        link: function (scope, element, attrs, ctrls) {
-
+        link: function (parentScope, element, attrs, ctrls) {
+            var scope = parentScope.$new(true);
             scope.wtText        = attrs.wtText;
             scope.wtPosition    = attrs.wtPosition;
             scope.wtGroup       = attrs.wtGroup;
             scope.wtBtnText     = attrs.wtBtnText;
             scope.wtOnNext      = attrs.wtOnNext;
+            scope.customCss     = attrs.wtStepCss;
+            scope.wtTitle       = attrs.wtTitle;
             var WalkThroughController = ctrls[0];
             var StepController = ctrls[1];
-
             (attrs.wtStep ? scope.wtStep = attrs.wtStep : console.log('Missing step number on wtStep directive'));
             if (!StepController._contentElement && !scope.wtText) {
                 console.log('wtStep directive is missing content, need either wtText or wtStepContent.');
@@ -59,20 +60,28 @@ angular.module('angular-walkthrough')
                     show: function () {
                         var deferred = $q.defer();
                         element[0].scrollIntoView(false);
-                        element.popover({
+                        var popoverOptions = {
                             html: true,
                             trigger: 'manual',
                             container: 'body',
-                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content wt-popover-content"></div></div>',
+                            template: '<div class="popover wt-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title popover-title-custom"></h3><div class="popover-content wt-popover-content wt-popover-content-custom"></div></div>',
                             viewport: {
                                 selector: 'body',
                                 padding: 2
                             },
-                            placement: (scope.wtPosition ? scope.wtPosition : 'auto'),
+                            placement: (this.wtPosition ? this.wtPosition : 'auto'),
                             content: function () {
                                 return StepController._contentElement;
                             }
-                        });
+                        };
+                        scope.startStep = WalkThroughController.startStep || 0;
+                        if( this.wtTitle ) popoverOptions.title = this.wtTitle +
+                            "<div class='floatR colo99 step-custom-class'>" +
+                                ( scope.wtStep - WalkThroughController.startStep ) + ' of ' +
+                                ( scope.totalSteps - WalkThroughController.startStep )+
+                            "</div>" +
+                            "<div class='clear'></div>";
+                        element.popover( popoverOptions );
 
                         element.on('shown.bs.popover', function () {
                             deferred.resolve();
@@ -131,7 +140,7 @@ angular.module('angular-walkthrough')
                         }
 
                         return deferred.promise;
-                    },
+                    }.bind(scope),
                     hide: function () {
                         var deferred = $q.defer();
                         element.on('hidden.bs.popover', function () {
@@ -163,6 +172,12 @@ angular.module('angular-walkthrough')
                     }
                 });
             }
+            parentScope.$on( "$destroy", function () {
+                WalkThroughController._unregisterStep({
+                    step: scope.wtStep,
+                    group: scope.wtGroup || 'default'
+                })
+            });
         }
     }
 }]);
